@@ -60,11 +60,11 @@ class Assistant:
         if command.startswith("calculate "):
             return f"The answer is {calculate(raw[10:]):g}."
         if command.startswith("note "):
-            note = raw[5:].strip().replace("\\n", " ")
+            note = raw[5:].strip()
             if not note:
                 return "Please provide some note text."
             with self.notes_file.open("a", encoding="utf-8") as file:
-                file.write(note + "\\n")
+                file.write(note + "\n")
             return "I've saved your note."
         if command == "read notes":
             if not self.notes_file.exists():
@@ -110,7 +110,7 @@ def main():
     print("Astra Assistant ready. Type 'help' for commands.")
     while True:
         try:
-            message = listen() if args.voice else input("\\nYou: ")
+            message = listen() if args.voice else input("\nYou: ")
             if args.voice:
                 print("You:", message)
             if message.strip().lower() in {"exit", "quit", "stop"}:
@@ -124,7 +124,7 @@ def main():
             if args.voice:
                 speak(reply)
         except (KeyboardInterrupt, EOFError):
-            print("\\nGoodbye!")
+            print("\nGoodbye!")
             break
         except (RuntimeError, OSError) as exc:
             print("Assistant:", exc)
