@@ -59,8 +59,8 @@ class Assistant:
             return dt.date.today().strftime("Today is %A, %d %B %Y.")
         if command.startswith("calculate "):
             return f"The answer is {calculate(raw[10:]):g}."
-        if command.startswith("note "):
-            note = raw[5:].strip()
+        if command == "note" or command.startswith("note "):
+            note = raw[4:].strip()
             if not note:
                 return "Please provide some note text."
             with self.notes_file.open("a", encoding="utf-8") as file:
