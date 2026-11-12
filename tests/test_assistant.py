@@ -37,7 +37,19 @@ class AssistantTests(unittest.TestCase):
 
     def test_notes_round_trip(self):
         self.assertEqual(self.assistant.respond("note finish README"), "I've saved your note.")
+        self.assertEqual(self.assistant.respond("note review tests"), "I've saved your note.")
+        self.assertEqual(
+            self.assistant.notes_file.read_text(encoding="utf-8"),
+            "finish README\nreview tests\n",
+        )
         self.assertIn("finish README", self.assistant.respond("read notes"))
+
+    def test_empty_note_is_not_saved(self):
+        self.assertEqual(
+            self.assistant.respond("note   "),
+            "Please provide some note text.",
+        )
+        self.assertFalse(self.assistant.notes_file.exists())
 
     def test_unknown_command(self):
         self.assertIn("don't know", self.assistant.respond("fly to mars").lower())
